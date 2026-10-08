@@ -6,72 +6,82 @@
 <title>Publy Theme Gallery</title>
 <meta name="description" content="Publy 主题画廊：整页缩略预览 + 100% 详览，文章主题真实 HTML 同篇对比；图片消息卡片真实出图滑动翻阅。">
 <style>
-  :root { --bg:#111; --card:#1c1c1c; --text:#eee; --muted:#999; --accent:#07C160; --border:#2a2a2a; }
+  :root {
+    --bg:#f7f6f3; --canvas:#efede8; --card:#ffffff;
+    --text:#1c1b1a; --muted:#8a8680;
+    --accent:#b75c3d; --accent-soft:rgba(183,92,61,.09);
+    --border:#e6e3dc;
+    --shadow-sm:0 1px 2px rgba(28,27,26,.06),0 2px 8px rgba(28,27,26,.05);
+    --shadow-md:0 1px 3px rgba(28,27,26,.08),0 12px 32px rgba(28,27,26,.12);
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; padding: 48px 24px 80px; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; padding: 56px 24px 96px; -webkit-font-smoothing: antialiased; }
   .container { max-width: 1080px; margin: 0 auto; }
-  h1 { font-size: 26px; margin-bottom: 8px; }
-  .lead { color: var(--muted); margin-bottom: 36px; line-height: 1.7; font-size: 14px; }
-  .lead code { color: var(--accent); }
-  section { margin-bottom: 64px; }
-  h2 { font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
-  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
-  .tab { padding: 8px 20px; background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 999px; cursor: pointer; font-size: 14px; }
-  .tab.sel { border-color: var(--accent); color: var(--accent); background: rgba(7,193,96,.08); }
+  h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.01em; }
+  h1 .dot { color: var(--accent); font-weight: 400; }
+  .lead { color: var(--muted); margin: 10px 0 40px; line-height: 1.8; font-size: 14.5px; max-width: 660px; }
+  .lead strong { color: var(--text); font-weight: 600; }
+  .lead code { color: var(--accent); background: var(--accent-soft); padding: 1px 6px; border-radius: 5px; font-size: 13px; }
+  section { margin-bottom: 72px; }
+  h2 { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; font-weight: 600; }
+  .bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 8px; box-shadow: var(--shadow-sm); }
+  .tab { padding: 7px 13px; background: transparent; color: var(--text); border: 1px solid transparent; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all .15s ease; }
+  .tab:hover { background: var(--accent-soft); color: var(--accent); }
+  .tab.sel { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); font-weight: 500; }
   .wt { margin-left: auto; display: flex; gap: 6px; align-items: center; }
-  .wt span { font-size: 12px; color: var(--muted); }
-  .wt button { padding: 8px 14px; font-size: 12px; }
-  .wt .sel { border-color: var(--accent); color: var(--accent); }
-  .stage { height: 78vh; background: #060606; border: 1px solid var(--border); border-radius: 16px; display: flex; justify-content: center; align-items: flex-start; overflow: hidden; padding: 14px; cursor: zoom-in; position: relative; }
-  .stage:hover::after { content: "点击进入 100% 详览"; position: absolute; right: 14px; bottom: 10px; font-size: 12px; color: var(--accent); background: rgba(0,0,0,.65); padding: 4px 10px; border-radius: 999px; }
+  .wt span { font-size: 12px; color: var(--muted); margin-right: 2px; }
+  .wt .tab { padding: 7px 12px; font-size: 12.5px; }
+  .wt .sel { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); font-weight: 500; }
+  .stage { height: 78vh; background: var(--canvas); border: 1px solid var(--border); border-radius: 16px; display: flex; justify-content: center; align-items: flex-start; overflow: hidden; padding: 20px; cursor: zoom-in; position: relative; }
+  .stage:hover::after { content: "点击进入 100% 详览"; position: absolute; right: 14px; bottom: 12px; font-size: 12px; color: var(--accent); background: rgba(255,255,255,.92); padding: 5px 12px; border-radius: 999px; box-shadow: var(--shadow-sm); }
   .sizer { position: relative; }
-  .page { transform-origin: top left; position: absolute; top: 0; left: 0; box-shadow: 0 10px 40px rgba(0,0,0,.55); border-radius: 6px; overflow: hidden; }
+  .page { transform-origin: top left; position: absolute; top: 0; left: 0; box-shadow: var(--shadow-md); border-radius: 8px; overflow: hidden; }
   .toolbar { display: flex; gap: 14px; align-items: center; margin-top: 12px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
-  .toolbar .mini { padding: 6px 14px; font-size: 12px; background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 999px; cursor: pointer; }
-  .toolbar .mini:hover { border-color: var(--accent); color: var(--accent); }
-  .theme-block { margin-bottom: 44px; }
-  .theme-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-  .theme-head h3 { font-size: 16px; }
-  .mini { padding: 6px 14px; font-size: 12px; background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 999px; cursor: pointer; }
+  .mini, .toolbar .mini { padding: 6px 14px; font-size: 12px; background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 999px; cursor: pointer; transition: all .15s ease; }
   .mini:hover { border-color: var(--accent); color: var(--accent); }
-  .deck { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 14px; }
-  .deck img { height: 430px; border-radius: 14px; scroll-snap-align: start; cursor: zoom-in; box-shadow: 0 6px 24px rgba(0,0,0,.45); }
-  .lightbox, .zoom { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 50; }
+  .theme-block { margin-bottom: 48px; }
+  .theme-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .theme-head h3 { font-size: 16px; font-weight: 600; }
+  .deck { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 16px; }
+  .deck img { height: 430px; border-radius: 14px; scroll-snap-align: start; cursor: zoom-in; box-shadow: var(--shadow-md); }
+  .lightbox, .zoom { display: none; position: fixed; inset: 0; background: rgba(20,19,18,.94); z-index: 50; }
   .lightbox.open, .zoom.open { display: flex; }
   .lightbox { align-items: center; justify-content: center; }
-  .lightbox img { max-height: 92vh; max-width: 88vw; border-radius: 10px; }
+  .lightbox img { max-height: 92vh; max-width: 88vw; border-radius: 10px; box-shadow: var(--shadow-md); }
   .lb-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 42px; color: #fff; background: none; border: 0; cursor: pointer; padding: 20px; user-select: none; }
   .lb-prev { left: 12px; } .lb-next { right: 12px; }
-  .lb-close, .zoom-close { position: fixed; top: 18px; right: 24px; font-size: 28px; color: #fff; background: rgba(0,0,0,.4); border: 1px solid #444; border-radius: 999px; width: 44px; height: 44px; cursor: pointer; z-index: 61; }
+  .lb-close, .zoom-close { position: fixed; top: 18px; right: 24px; font-size: 26px; color: #fff; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: 999px; width: 44px; height: 44px; cursor: pointer; z-index: 61; }
   .zoom { flex-direction: column; }
-  .zoom-bar { display: flex; gap: 10px; align-items: center; padding: 10px 18px; background: #161616; font-size: 13px; color: var(--muted); }
-  .zoom-bar button { padding: 6px 14px; font-size: 12px; background: #222; color: #ddd; border: 1px solid #3a3a3a; border-radius: 999px; cursor: pointer; }
-  .zoom-bar button.sel { border-color: var(--accent); color: var(--accent); }
+  .zoom-bar { display: flex; gap: 10px; align-items: center; padding: 10px 18px; background: rgba(255,255,255,.06); font-size: 13px; color: rgba(255,255,255,.7); }
+  .zoom-bar button { padding: 6px 14px; font-size: 12px; background: rgba(255,255,255,.08); color: rgba(255,255,255,.85); border: 1px solid rgba(255,255,255,.18); border-radius: 999px; cursor: pointer; }
+  .zoom-bar button.sel { border-color: var(--accent); color: #fff; background: var(--accent-soft); }
   .zoom-body { flex: 1; overflow: auto; display: flex; justify-content: center; padding: 22px; }
-  .zoom-page { width: 700px; box-shadow: 0 10px 40px rgba(0,0,0,.6); border-radius: 6px; overflow: hidden; }
+  .zoom-page { width: 700px; box-shadow: 0 12px 48px rgba(0,0,0,.5); border-radius: 8px; overflow: hidden; }
   .hint { color: var(--muted); font-size: 12px; margin-top: 10px; line-height: 1.8; }
-  footer { margin-top: 40px; text-align: center; color: var(--muted); font-size: 13px; }
+  footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 13px; }
   footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>Publy Theme Gallery</h1>
-  <p class="lead">文章主题以<strong>整页缩略图</strong>呈现——一篇的全貌一屏看尽，点击进入 100% 原大详览；同篇切主题即时对比。图片消息卡片是确定性引擎的真实出图，按真实翻阅方式滑动。本地试用：<code>publy theme preview &lt;name&gt;</code></p>
+  <h1>Publy <span class="dot">·</span> 主题画廊</h1>
+  <p class="lead">每套主题都以<strong>整页缩略</strong>呈现——一篇的全貌一屏看尽，点击进入 100% 原大详览，同篇切主题即时对比。图片消息卡片是确定性引擎的真实出图，按真实翻阅方式滑动。看中哪套，本地 <code>publy theme preview &lt;name&gt;</code> 即刻上眼。</p>
+  <meta name="theme-color" content="#f7f6f3">
 
   <section>
     <h2>Article themes · 公众号文章排版</h2>
     <div class="bar">
-      <button class="tab sel" onclick="pickTheme('claude', this)">claude</button>
-      <button class="tab" onclick="pickTheme('medium', this)">medium</button>
-      <button class="tab" onclick="pickTheme('wechat', this)">wechat</button>
-      <button class="tab" onclick="pickTheme('ink', this)">ink</button>
-      <button class="tab" onclick="pickTheme('tech', this)">tech</button>
-      <button class="tab" onclick="pickTheme('rose', this)">rose</button>
-      <button class="tab" onclick="pickTheme('official', this)">official</button>
-      <button class="tab" onclick="pickTheme('fortune', this)">fortune</button>
-      <button class="tab" onclick="pickTheme('terminal', this)">terminal</button>
-      <button class="tab" onclick="pickTheme('news', this)">news</button>
+      <button class="tab sel" onclick="pickTheme('claude', this)">claude 暖橙</button>
+      <button class="tab" onclick="pickTheme('medium', this)">medium 简白</button>
+      <button class="tab" onclick="pickTheme('wechat', this)">wechat 微信</button>
+      <button class="tab" onclick="pickTheme('ink', this)">ink 水墨</button>
+      <button class="tab" onclick="pickTheme('tech', this)">tech 科技</button>
+      <button class="tab" onclick="pickTheme('rose', this)">rose 玫瑰</button>
+      <button class="tab" onclick="pickTheme('official', this)">official 公众号</button>
+      <button class="tab" onclick="pickTheme('fortune', this)">fortune 财经</button>
+      <button class="tab" onclick="pickTheme('terminal', this)">terminal 终端</button>
+      <button class="tab" onclick="pickTheme('news', this)">news 早报</button>
       <span class="wt">
         <span>设计宽</span>
         <button class="tab sel" onclick="setWidth(700, this)">700</button>
