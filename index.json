@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Publy theme registry — curated list of article and card themes. Built-ins ship with @publy/core; external themes are npm packages installed with `publy theme add`.",
+  "description": "Publy theme gallery — descriptive previews of built-in article and card themes; not an installation registry.",
   "themes": [
     {
       "id": "claude",
