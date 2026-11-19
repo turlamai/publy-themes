@@ -1,7 +1,5 @@
 # Publy Theme Registry
 
-**Support:** [Issues & feedback](https://github.com/turlamai/publy-themes/issues) · [Development policy](https://github.com/turlamai/turlamai.github.io/blob/master/PORTFOLIO.md)
-
 **English** · [中文](README.zh-CN.md)
 
 Curated index of Publy themes (article themes for Markdown → WeChat HTML, card themes for image-post 3:4 PNG decks). `publy theme ls` reads `index.json` from this repo.
