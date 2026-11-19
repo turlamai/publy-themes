@@ -1,5 +1,7 @@
 # Publy Theme Registry
 
+**支持：**[问题与反馈](https://github.com/turlamai/publy-themes/issues) · [当前交付策略](https://github.com/turlamai/turlamai.github.io/blob/master/PORTFOLIO.zh-CN.md)
+
 [English](README.md) · **中文**
 
 精选的 Publy 主题索引（文章主题用于 Markdown → 微信 HTML，卡片主题用于图片帖 3:4 PNG 套图）。`publy theme ls` 会读取本仓库的 `index.json`。
